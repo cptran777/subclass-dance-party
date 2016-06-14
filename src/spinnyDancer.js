@@ -14,12 +14,13 @@ SpinnyDancer.prototype.step = function() {
   // other effects you can use on a jQuery-wrapped html tag.
 
   if (this.facing === 'down') {
-    this.$node.css({'-webkit-transition': '0.5s', 
-      '-webkit-transform': 'rotateY(360deg)'});
+    this.$node.css({'-webkit-transition': '.2s', 
+      '-webkit-transform': 'rotateY(360deg)'}).css({'-webkit-transition': '0', 
+      '-webkit-transform': 'rotateY(0deg)'});
     this.facing = 'up';
   } else if (this.facing === 'up') {
-    this.$node.css({'-webkit-transition': '0.5s', 
-      '-webkit-transform': 'rotateY(0deg)'});
+    this.$node.css({'-webkit-transition': '.2s', 
+      '-webkit-transform': 'rotateY(180deg)'});
     this.facing = 'down';  
   }
 
