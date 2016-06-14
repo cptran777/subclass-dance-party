@@ -1,4 +1,64 @@
+var calculateDistance = function (node1, node2) {
+  var height = Math.abs(node1.position().top - node2.position().top);
+  var width = Math.abs(node1.position().left - node2.position().left);
+  return Math.sqrt(Math.pow(height, 2) + Math.pow(width, 2));
+};
+
 $(document).ready(function() {
+
+  var collisionTracker;
+  var collision = function() {
+    var sortedWindow = window.dancers.sort(function(a, b) {
+      return a.$node.position().left - b.$node.position().left;
+    });
+    for (var i = 0; (i + 1) < window.dancers.length; i++) {
+      // check positions between thisDancer and referenced Dancer
+      var dist = calculateDistance(window.dancers[i].$node, window.dancers[i + 1].$node);
+      // if diagonal is less than xpx
+      if (dist <= 210) {
+        // call global spreadOut to align all dancers on the side
+        spreadOut();
+
+        // run collision on thisDancer and referenced Dancer
+        window.dancers[i].collision('left');
+        window.dancers[i + 1].collision('right'); 
+
+        setTimeout(function() {
+          if (Math.floor(Math.random() * 2) === 0) {
+            window.dancers[i].fight(window.dancers[i + 1]);
+          } else {
+            window.dancers[i + 1].fight(window.dancers[i]);
+          }
+        }, 3500);
+        return;
+      }
+    }
+    collisionTracker = setTimeout(collision, 1000);
+  };
+
+  setTimeout(collision, 1000);
+
+  var spreadOut = function() {
+    var leftSide = 50;
+    var rightSide = $('body').width() - 350;
+    for (var i = 0; i < window.dancers.length; i++) {
+      if ((i % 2 === 0)) {
+        clearTimeout(window.dancers[i].stepTracker);
+        window.dancers[i].$node.animate({
+          left: leftSide
+        });
+        leftSide += 10;
+      } else {
+        clearTimeout(window.dancers[i].stepTracker);
+        window.dancers[i].$node.animate({
+          left: rightSide
+        });
+        rightSide -= 10;
+      }
+    }
+  };
+
+
   window.spinnyDancers = [];
   window.blinkyDancers = [];
   window.shrinkyDancer = [];

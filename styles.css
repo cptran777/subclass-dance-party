@@ -34,3 +34,15 @@ body, a:link, a:visited, a:active{
   transform: rotateY(180deg);
   -webkit-animation: 2s rotate360 infitite linear;
 }
+.greenhealthbar{
+  height: 30px;
+  width: 200px;
+  background-color: green;
+  position: absolute;
+}
+.redhealthbar{
+  height: 30px;
+  width: 200px;
+  background-color: red;
+  position: absolute;
+}
