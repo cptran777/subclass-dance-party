@@ -1,5 +1,6 @@
 var SpinnyDancer = function(top, left, timeBetweenSteps) {
   Dancer.apply(this, arguments);
+  this.facing = 'down';
 };
 
 SpinnyDancer.prototype = Object.create(Dancer.prototype);
@@ -11,5 +12,15 @@ SpinnyDancer.prototype.step = function() {
   // toggle() is a jQuery method to show/hide the <span> tag.
   // See http://api.jquery.com/category/effects/ for this and
   // other effects you can use on a jQuery-wrapped html tag.
-  this.$node.toggle();
+
+  if (this.facing === 'down') {
+    this.$node.css({'-webkit-transition': '0.5s', 
+      '-webkit-transform': 'rotateY(360deg)'});
+    this.facing = 'up';
+  } else if (this.facing === 'up') {
+    this.$node.css({'-webkit-transition': '0.5s', 
+      '-webkit-transform': 'rotateY(0deg)'});
+    this.facing = 'down';  
+  }
+
 };

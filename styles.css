@@ -21,7 +21,13 @@ body, a:link, a:visited, a:active{
   background-color: #777;
 }
 .dancer{
-  border:10px solid red;
-  border-radius:10px;
   position:absolute;
+  height: 200px;
+}
+.flip{
+  -webkit-transition: 1s;
+  transition: 1s;
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  -webkit-animation: 2s rotate360 infitite linear;
 }
