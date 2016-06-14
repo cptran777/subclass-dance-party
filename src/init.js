@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  window.spinnyDancers = [];
+  window.blinkyDancers = [];
+  window.shrinkyDancer = [];
   window.dancers = [];
 
   $('.addDancerButton').on('click', function(event) {
@@ -24,8 +27,26 @@ $(document).ready(function() {
 
     var dancer = new dancerMakerFunction(
       ($("body").height() * 0.7 + ($("body").height() * .3 * Math.random()) - 200),
-      $("body").width() * Math.random(), 200);
+      ($("body").width() * Math.random()) - 100, 1000);
     $('body').append(dancer.$node);
   });
+
+  $('.lineUpButton').on('click', function(event) {
+    // iterate through dancers
+    for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
+      // for each dancer, call line up to incrementing top and a set left
+      window.spinnyDancers[i].lineUp(pos, ($('body').width() * 0.5) - 100);
+
+    }
+  });
+
+  $('.fightOn').on('click', function(event) {
+    for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
+      // for each dancer, call line up to incrementing top and a set left
+      window.spinnyDancers[i].step();
+
+    }
+  });
+
 });
 
