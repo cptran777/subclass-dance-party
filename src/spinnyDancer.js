@@ -1,6 +1,6 @@
 var SpinnyDancer = function(top, left, timeBetweenSteps) {
   Dancer.apply(this, arguments);
-  this.$node = $('<img class="dancer Zangief" src="src/img/zangief-spin.gif" alt="ZangiefDancer">');
+  this.$node = $('<img class="dancer Zangief" src="src/img/Sf-zangief.gif" alt="ZangiefDancer">');
   this.setPosition(top, left);
   this.$node.addClass('zangief');
   window.spinnyDancers.push(this);

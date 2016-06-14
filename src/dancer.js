@@ -56,10 +56,13 @@ Dancer.prototype.fight = function(enemyFighter) {
   var $enemyHealthBarBG = $('<div class="redhealthbar">.</div>');
   var $dancerHealthBar = $('<div class="greenhealthbar">.</div>');
   var $enemyHealthBar = $('<div class="greenhealthbar">.</div>');
+  var self = this;
   $('body').append($dancerHealthBarBG);
   $('body').append($dancerHealthBar);
-  console.log(this.$node.position());
   $dancerHealthBar.css({top: this.$node.position().top - 50,
+    left: this.$node.position().left + 50
+  });
+  $dancerHealthBarBG.css({top: this.$node.position().top - 50,
     left: this.$node.position().left + 50
   });
   $('body').append($enemyHealthBarBG);
@@ -67,16 +70,36 @@ Dancer.prototype.fight = function(enemyFighter) {
   $enemyHealthBar.css({top: enemyFighter.$node.position().top - 50,
     left: enemyFighter.$node.position().left + 50
   });
+  $enemyHealthBarBG.css({top: enemyFighter.$node.position().top - 50,
+    left: enemyFighter.$node.position().left + 50
+  });
   setTimeout(function () {
     $dancerHealthBar.animate({width: $dancerHealthBar.width() - 50});
   }, 1000);
   setTimeout(function () {
+    $enemyHealthBar.animate({width: $dancerHealthBar.width() - 100});
+  }, 1400);
+  setTimeout(function () {
+    $dancerHealthBar.animate({width: $dancerHealthBar.width() - 90});
+  }, 1800);
+  setTimeout(function () {
+    $enemyHealthBar.animate({width: $dancerHealthBar.width() - 100});
+  }, 2200);
+  setTimeout(function () {
+    enemyFighter.$node.animate({top: -400}, 'fast');
     enemyFighter.$node.css({
       '-webkit-transition': '3s',
       '-webkit-transform': 'rotateZ(720deg)'
     });
-    enemyFighter.$node.animate({top: -400});
-  }, 3500);
+  }, 2350);
+  setTimeout(function () {
+    $dancerHealthBar.remove();
+    $enemyHealthBar.remove();
+    $dancerHealthBarBG.remove();
+    $enemyHealthBarBG.remove();
+    enemyFighter.$node.remove();
+    self.step();
+  }, 4500);
 };
 
 

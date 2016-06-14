@@ -61,7 +61,7 @@ $(document).ready(function() {
 
   window.spinnyDancers = [];
   window.blinkyDancers = [];
-  window.shrinkyDancer = [];
+  window.shrinkyDancers = [];
   window.dancers = [];
 
   $('.addDancerButton').on('click', function(event) {
@@ -96,7 +96,12 @@ $(document).ready(function() {
     for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
       // for each dancer, call line up to incrementing top and a set left
       window.spinnyDancers[i].lineUp(pos, ($('body').width() * 0.5) - 100);
-
+    }
+    for (var i = 0, pos = 50; i < window.blinkyDancers.length; i++, pos += 50) {
+      window.blinkyDancers[i].lineUp(pos, ($('body').width() * 0.8) - 100);
+    }
+    for (var i = 0, pos = 50; i < window.shrinkyDancers.length; i++, pos += 50) {
+      window.shrinkyDancers[i].lineUp(pos, ($('body').width() * 0.2) - 100);
     }
   });
 
