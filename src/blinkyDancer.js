@@ -1,7 +1,9 @@
 var BlinkyDancer = function(top, left, timeBetweenSteps) {
   Dancer.apply(this, arguments);
-  this.$node = $('<img class="dancer Ryu" src="src/img/Ken-ts-stance.gif" alt="ZangiefDancer">');
-  this.setPosition(top,left);
+  this.$node = $('<img class="dancer Ken" src="src/img/ken.gif" alt="ZangiefDancer">');
+  this.danceStance = 'src/img/ken.gif';
+  this.idleStance = 'src/img/Ken-ts-stance.gif';
+  this.setPosition(top, left);
   window.blinkyDancers.push(this);
 };
 

@@ -17,17 +17,70 @@ $(document).ready(function() {
       // if diagonal is less than xpx
       if (dist <= 210) {
         // call global spreadOut to align all dancers on the side
+        console.log("distance met");
+        clearTimeout(collisionTracker);
+        for (var x = 0; x < window.dancers.length; x++) {
+          clearTimeout(window.dancers[x].stepTracker);
+        }
         spreadOut();
 
         // run collision on thisDancer and referenced Dancer
         window.dancers[i].collision('left');
         window.dancers[i + 1].collision('right'); 
+        window.dancers[i].$node.attr('src', window.dancers[i].idleStance);
+        window.dancers[i + 1].$node.attr('src', window.dancers[i + 1].idleStance);
 
         setTimeout(function() {
           if (Math.floor(Math.random() * 2) === 0) {
             window.dancers[i].fight(window.dancers[i + 1]);
+            if (window.dancers[i + 1].$node.hasClass('Ryu')) {
+              for (var j = 0; j < window.shrinkyDancers.length; j++) {
+                if (window.shrinkyDancers[j] === window.dancers[i + 1]) {
+                  window.shrinkyDancers.splice(j, 1);
+                  j = window.shrinkyDancers.length;
+                }
+              }
+            } else if (window.dancers[i + 1].$node.hasClass('Ken')) {
+              for (var j = 0; j < window.shrinkyDancers.length; j++) {
+                if (window.blinkyDancers[j] === window.dancers[i + 1]) {
+                  window.blinkyDancers.splice(j, 1);
+                  j = window.blinkyDancers.length;
+                }
+              }
+            } else if (window.dancers[i + 1].$node.hasClass('Zangief')) {
+              for (var j = 0; j < window.spinnyDancers.length; j++) {
+                if (window.spinnyDancers[j] === window.dancers[i + 1]) {
+                  window.spinnyDancers.splice(j, 1);
+                  j = window.spinnyDancers.length;
+                }
+              }
+            }
+            window.dancers.splice(i + 1, 1);
           } else {
             window.dancers[i + 1].fight(window.dancers[i]);
+            if (window.dancers[i].$node.hasClass('Ryu')) {
+              for (var j = 0; j < window.shrinkyDancers.length; j++) {
+                if (window.shrinkyDancers[j] === window.dancers[i]) {
+                  window.shrinkyDancers.splice(j, 1);
+                  j = window.shrinkyDancers.length;
+                }
+              }
+            } else if (window.dancers[i].$node.hasClass('Ken')) {
+              for (var j = 0; j < window.shrinkyDancers.length; j++) {
+                if (window.blinkyDancers[j] === window.dancers[i]) {
+                  window.blinkyDancers.splice(j, 1);
+                  j = window.blinkyDancers.length;
+                }
+              }
+            } else if (window.dancers[i].$node.hasClass('Zangief')) {
+              for (var j = 0; j < window.spinnyDancers.length; j++) {
+                if (window.spinnyDancers[j] === window.dancers[i]) {
+                  window.spinnyDancers.splice(j, 1);
+                  j = window.spinnyDancers.length;
+                }
+              }
+            }
+            window.dancers.splice(i, 1);
           }
         }, 3500);
         return;
@@ -36,22 +89,36 @@ $(document).ready(function() {
     collisionTracker = setTimeout(collision, 1000);
   };
 
-  setTimeout(collision, 1000);
+  collisionTrakcer = setTimeout(collision, 1000);
 
   var spreadOut = function() {
+    console.log("spread called");
+    for (var x = 0; x < window.dancers.length; x++) {
+      clearTimeout(window.dancers[x].stepTracker);
+    }
     var leftSide = 50;
     var rightSide = $('body').width() - 350;
     for (var i = 0; i < window.dancers.length; i++) {
       if ((i % 2 === 0)) {
-        clearTimeout(window.dancers[i].stepTracker);
         window.dancers[i].$node.animate({
           left: leftSide
         });
         leftSide += 10;
+        window.dancers[i].facing = 'right';
+        window.dancers[i].$node.css({
+          // '-webkit-transition': '0s',
+          '-webkit-transform': 'scaleX(1)'
+        });
       } else {
-        clearTimeout(window.dancers[i].stepTracker);
         window.dancers[i].$node.animate({
           left: rightSide
+        });
+        window.dancers[i].facing = 'left';
+        window.dancers[i].$node.css({
+          // '-webkit-transition': '0s',
+          '-webkit-transform': 'scaleX(-1)',
+          'filter': 'FlipH',
+          '-ms-filter': 'FlipH'
         });
         rightSide -= 10;
       }
@@ -93,6 +160,8 @@ $(document).ready(function() {
 
   $('.lineUpButton').on('click', function(event) {
     // iterate through dancers
+    console.log("lineup registers");
+    clearTimeout(collisionTracker);
     for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
       // for each dancer, call line up to incrementing top and a set left
       window.spinnyDancers[i].lineUp(pos, ($('body').width() * 0.5) - 100);
@@ -106,11 +175,12 @@ $(document).ready(function() {
   });
 
   $('.fightOn').on('click', function(event) {
-    for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
+    console.log("fighton called");
+    for (var i = 0, pos = 50; i < window.dancers.length; i++, pos += 50) {
       // for each dancer, call line up to incrementing top and a set left
-      window.spinnyDancers[i].step();
-
+      window.dancers[i].step();
     }
+    collisionTracker = setTimeout(collision, 1000);
   });
 
 });

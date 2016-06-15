@@ -1,6 +1,9 @@
 var ShrinkyDancer = function(top, left, timeBetweenSteps) {
   Dancer.apply(this, arguments);
-  this.$node = $('<img class="dancer Ryu" src="src/img/Ryu-ts-stance.gif" alt="ZangiefDancer">');
+  this.$node = $('<img class="dancer Ryu" src="src/img/ryu-throw.gif" alt="ZangiefDancer">');
+  this.danceStance = 'src/img/ryu-throw.gif';
+  this.idleStance = 'src/img/Ryu-ts-stance.gif';
+  this.battleStance = '';
   this.setPosition(top, left);
   window.shrinkyDancers.push(this);
 };

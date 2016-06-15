@@ -7,7 +7,7 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.step();
   this.stepTracker;
   window.dancers.push(this);
-  this.dancing = true;
+  this.facing = 'right';
   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
   // this one sets the position to some random default point within the body
 };
@@ -39,12 +39,23 @@ Dancer.prototype.lineUp = function(top, left) {
 };
 
 Dancer.prototype.collision = function(side) {
+  console.log("dancer collision called");
   if (side === 'left') {
     this.$node.animate({left: $('body').width() / 2 - 275,
       top: $('body').height() * 2 / 3});
+    this.facing = 'right';
+    this.$node.css({
+      '-webkit-transform': 'scaleX(1)'
+    });
   } else if (side === 'right') {
     this.$node.animate({left: $('body').width() / 2 + 50,
       top: $('body').height() * 2 / 3});
+    this.facing = 'left';
+    this.$node.css({
+      '-webkit-transform': 'scaleX(-1)',
+      'filter': 'FlipH',
+      '-ms-filter': 'FlipH'
+    });
   }
 
   //this.step();
@@ -57,6 +68,8 @@ Dancer.prototype.fight = function(enemyFighter) {
   var $dancerHealthBar = $('<div class="greenhealthbar">.</div>');
   var $enemyHealthBar = $('<div class="greenhealthbar">.</div>');
   var self = this;
+  this.$node.attr('src', this.idleStance);
+  enemyFighter.$node.attr('src', enemyFighter.idleStance);
   $('body').append($dancerHealthBarBG);
   $('body').append($dancerHealthBar);
   $dancerHealthBar.css({top: this.$node.position().top - 50,
@@ -86,10 +99,10 @@ Dancer.prototype.fight = function(enemyFighter) {
     $enemyHealthBar.animate({width: $dancerHealthBar.width() - 100});
   }, 2200);
   setTimeout(function () {
-    enemyFighter.$node.animate({top: -400}, 'fast');
+    enemyFighter.$node.animate({top: -800}, 'fast');
     enemyFighter.$node.css({
       '-webkit-transition': '3s',
-      '-webkit-transform': 'rotateZ(720deg)'
+      '-webkit-transform': 'rotateZ(360deg)'
     });
   }, 2350);
   setTimeout(function () {
@@ -98,7 +111,15 @@ Dancer.prototype.fight = function(enemyFighter) {
     $dancerHealthBarBG.remove();
     $enemyHealthBarBG.remove();
     enemyFighter.$node.remove();
+    self.$node.attr('src', self.danceStance);
     self.step();
+    // if (self.facing === 'left') {
+    //   self.$node.css({
+    //     '-webkit-transition': '0s',
+    //     '-webkit-transform': 'rotateY(0deg)'
+    //   });
+    //   self.facing = 'right';
+    // }
   }, 4500);
 };
 
