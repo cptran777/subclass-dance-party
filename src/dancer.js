@@ -45,7 +45,9 @@ Dancer.prototype.collision = function(side) {
       top: $('body').height() * 2 / 3});
     this.facing = 'right';
     this.$node.css({
-      '-webkit-transform': 'scaleX(1)'
+      '-webkit-transform': '',
+      'filter': '',
+      '-ms-filter': ''
     });
   } else if (side === 'right') {
     this.$node.animate({left: $('body').width() / 2 + 50,
@@ -88,6 +90,8 @@ Dancer.prototype.fight = function(enemyFighter) {
   });
   setTimeout(function () {
     $dancerHealthBar.animate({width: $dancerHealthBar.width() - 50});
+    self.$node.attr('src', self.battleStance);
+    enemyFighter.$node.attr('src', enemyFighter.battleStance);
   }, 1000);
   setTimeout(function () {
     $enemyHealthBar.animate({width: $dancerHealthBar.width() - 100});
@@ -99,10 +103,27 @@ Dancer.prototype.fight = function(enemyFighter) {
     $enemyHealthBar.animate({width: $dancerHealthBar.width() - 100});
   }, 2200);
   setTimeout(function () {
-    enemyFighter.$node.animate({top: -800}, 'fast');
+    enemyFighter.$node.attr('src', enemyFighter.idleStance);
     enemyFighter.$node.css({
-      '-webkit-transition': '3s',
-      '-webkit-transform': 'rotateZ(360deg)'
+      '-webkit-transition': '',
+      '-webkit-transform': '',
+      '-filter': '',
+      '-ms-filter': ''
+    });
+    if (enemyFighter.facing === 'right') {
+      enemyFighter.$node.animate({
+        left: -800,
+        top: -200
+      }, 'fast');
+    } else if (enemyFighter.facing === 'left') {
+      enemyFighter.$node.animate({
+        left: $('body').width() + 800,
+        top: -200
+      }, 'fast');
+    }
+    enemyFighter.$node.css({
+      '-webkit-transition': '1s',
+      '-webkit-transform': 'rotateZ(720deg)'
     });
   }, 2350);
   setTimeout(function () {

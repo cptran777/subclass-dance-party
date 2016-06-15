@@ -2,7 +2,7 @@ var SpinnyDancer = function(top, left, timeBetweenSteps) {
   Dancer.apply(this, arguments);
   this.danceStance = 'src/img/zangief-spin.gif';
   this.idleStance = 'src/img/Sf-zangief.gif';
-  this.battleStance = '';
+  this.battleStance = 'src/img/zangief-spin.gif';
   this.$node = $('<img class="dancer Zangief" src="src/img/zangief-spin.gif" alt="ZangiefDancer">');
   this.setPosition(top, left);
   window.spinnyDancers.push(this);
@@ -21,8 +21,8 @@ SpinnyDancer.prototype.step = function() {
     topPos.pop();
     leftPos.pop();
   }
-  topPos = Number(topPos.join('')) + (Math.random() * 50) - 25;
-  leftPos = Number(leftPos.join('')) + (Math.random() * 50) - 25;
+  topPos = Number(topPos.join('')) + (Math.random() * 100) - 50;
+  leftPos = Number(leftPos.join('')) + (Math.random() * 100) - 50;
   this.$node.animate({
     top: topPos > -50 ? topPos + 'px' : -50 + 'px',
     left: leftPos > -50 ? leftPos + 'px' : -50 + 'px'

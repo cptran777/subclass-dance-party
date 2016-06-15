@@ -17,7 +17,6 @@ $(document).ready(function() {
       // if diagonal is less than xpx
       if (dist <= 210) {
         // call global spreadOut to align all dancers on the side
-        console.log("distance met");
         clearTimeout(collisionTracker);
         for (var x = 0; x < window.dancers.length; x++) {
           clearTimeout(window.dancers[x].stepTracker);
@@ -92,7 +91,6 @@ $(document).ready(function() {
   collisionTrakcer = setTimeout(collision, 1000);
 
   var spreadOut = function() {
-    console.log("spread called");
     for (var x = 0; x < window.dancers.length; x++) {
       clearTimeout(window.dancers[x].stepTracker);
     }
@@ -106,8 +104,10 @@ $(document).ready(function() {
         leftSide += 10;
         window.dancers[i].facing = 'right';
         window.dancers[i].$node.css({
-          // '-webkit-transition': '0s',
-          '-webkit-transform': 'scaleX(1)'
+          '-webkit-transition': '',
+          '-webkit-transform': '',
+          '-filter': '',
+          '-ms-filter': ''
         });
       } else {
         window.dancers[i].$node.animate({
@@ -160,27 +160,44 @@ $(document).ready(function() {
 
   $('.lineUpButton').on('click', function(event) {
     // iterate through dancers
-    console.log("lineup registers");
     clearTimeout(collisionTracker);
-    for (var i = 0, pos = 50; i < window.spinnyDancers.length; i++, pos += 50) {
+    for (var i = 0, pos = 450; i < window.spinnyDancers.length; i++, pos += 50) {
       // for each dancer, call line up to incrementing top and a set left
       window.spinnyDancers[i].lineUp(pos, ($('body').width() * 0.5) - 100);
     }
-    for (var i = 0, pos = 50; i < window.blinkyDancers.length; i++, pos += 50) {
+    for (var i = 0, pos = 450; i < window.blinkyDancers.length; i++, pos += 50) {
       window.blinkyDancers[i].lineUp(pos, ($('body').width() * 0.8) - 100);
     }
-    for (var i = 0, pos = 50; i < window.shrinkyDancers.length; i++, pos += 50) {
+    for (var i = 0, pos = 450; i < window.shrinkyDancers.length; i++, pos += 50) {
       window.shrinkyDancers[i].lineUp(pos, ($('body').width() * 0.2) - 100);
     }
   });
 
   $('.fightOn').on('click', function(event) {
-    console.log("fighton called");
+
     for (var i = 0, pos = 50; i < window.dancers.length; i++, pos += 50) {
       // for each dancer, call line up to incrementing top and a set left
+      clearTimeout(window.dancers[i].stepTracker);
       window.dancers[i].step();
     }
     collisionTracker = setTimeout(collision, 1000);
+  });
+
+  $('body').on('mouseenter', '.dancer', function(event) {
+    $(this).css({
+      '-webkit-transition': '5s',
+      '-webkit-transform': 'rotateY(1080deg)'
+    });
+  });
+
+  $('body').on('mouseleave', '.dancer', function(event) {
+    var self = this;
+    $(self).css({
+      '-webkit-transform': 'rotateY(0deg)'
+    });
+    setTimeout(function() {
+      $(self).css({'-webkit-transform': ''}, 5000);
+    });
   });
 
 });
